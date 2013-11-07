@@ -15,7 +15,7 @@ from pox.lib.addresses import EthAddr
 from collections import namedtuple
 import os
 ''' Add your imports here ... '''
-
+from csv import DictReader
 
 
 log = core.getLogger()
@@ -33,10 +33,19 @@ class Firewall (EventMixin):
 
     def _handle_ConnectionUp (self, event):    
         ''' Add your logic here ... '''
-        
-
+        with open(policyFile, "r") as csvfile:
+            dictreader = DictReader(csvfile)
+            
+         for a in dictreader:
+                  print "hello----",a
+                  msg = of.ofp_flow_mod()
+                  msg.priority = 65535
+                  msg.match.dl_src = EthAddr(a['mac_0'])
+                  msg.match.dl_dst = EthAddr(a['mac_1'])
+                  self.connection.send(msg) 
+                 
     
-        log.debug("Firewall rules installed on %s", dpidToStr(event.dpid))
+         log.debug("Firewall rules installed on %s", dpidToStr(event.dpid))
 
 def launch ():
     '''
