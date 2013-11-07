@@ -17,6 +17,8 @@ class CustomTopo(Topo):
     def __init__(self, linkopts1, linkopts2, linkopts3, fanout=2, **opts):
         # Initialize topology and default options
         Topo.__init__(self, **opts)
+        self.addHost('h1')
+        self.addHost()
         
         # Add your logic here ...
 
