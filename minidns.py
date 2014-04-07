@@ -100,7 +100,10 @@ if __name__ == '__main__':
     while 1:
       data, addr = udps.recvfrom(1024)
       p=DNSQuery(data)
-      udps.sendto(p.respuesta(ip), addr)
+      if p.domain == "www.ggg.com":
+        udps.sendto(p.respuesta("222.222.222.222"), addr)
+      else:
+        udps.sendto(p.respuesta("111.111.111.111"), addr)
       print 'Request: %s -> %s' % (p.domain, ip)
   except KeyboardInterrupt:
     print '\nBye!'
