@@ -80,12 +80,12 @@ if __name__ == '__main__':
       else:
         iface = sys.argv[-1]
 
-  if ip is None:
-    ip = get_ip_address(iface)
+  # if ip is None:
+  #   ip = get_ip_address(iface)
 
-  if ip is None:
-    print "ERROR: Invalid IP address or interface name specified!"
-    usage()
+  # if ip is None:
+  #   print "ERROR: Invalid IP address or interface name specified!"
+  #   usage()
 
   try:
     udps = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -100,11 +100,12 @@ if __name__ == '__main__':
     while 1:
       data, addr = udps.recvfrom(1024)
       p=DNSQuery(data)
-      if p.domain == "www.ggg.com":
+      if p.domain == "www.ggg.com.":
         udps.sendto(p.respuesta("222.222.222.222"), addr)
+        print 'Request: %s -> %s' % (p.domain, "222.222.222.222")
       else:
         udps.sendto(p.respuesta("111.111.111.111"), addr)
-      print 'Request: %s -> %s' % (p.domain, ip)
+        print 'Request: %s -> %s' % (p.domain, "111.111.111.111")
   except KeyboardInterrupt:
     print '\nBye!'
     udps.close()
